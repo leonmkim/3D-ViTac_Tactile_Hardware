@@ -12,11 +12,17 @@ from scipy.ndimage import gaussian_filter
 # import seaborn as sns
 # os.system('cls')
 
+# PORT = "left_gripper_right_finger"
+# dev_name = "panda_left_finger"
+dev_name = "panda_right_finger"
+cv2_window_name = dev_name
+PORT =f"/dev/{dev_name}"
+
 contact_data_norm = np.zeros((16,32))
 WINDOW_WIDTH = contact_data_norm.shape[1]*30
 WINDOW_HEIGHT = contact_data_norm.shape[0]*30
-cv2.namedWindow("Contact Data_left", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Contact Data_left",WINDOW_WIDTH, WINDOW_HEIGHT)
+cv2.namedWindow(cv2_window_name, cv2.WINDOW_NORMAL)
+cv2.resizeWindow(cv2_window_name,WINDOW_WIDTH, WINDOW_HEIGHT)
 THRESHOLD =20
 NOISE_SCALE =60
 
@@ -90,8 +96,7 @@ def readThread(serDev):
                 continue
         
 
-# PORT = "left_gripper_right_finger"
-PORT ='/dev/ttyUSB0'
+
 BAUD = 2000000
 # serDev = serial.Serial(PORT,2000000) 
 serDev = serial.Serial(PORT,BAUD)
@@ -143,7 +148,7 @@ if __name__ == '__main__':
                 # Apply color map
                 colormap = cv2.applyColorMap(temp_filtered_data_scaled, cv2.COLORMAP_VIRIDIS)
 
-                cv2.imshow("Contact Data_left", colormap)
+                cv2.imshow(cv2_window_name, colormap)
                 cv2.waitKey(1)
             time.sleep(0.01)
 
